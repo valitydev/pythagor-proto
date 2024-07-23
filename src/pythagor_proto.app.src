@@ -1,0 +1,9 @@
+{application, pythagor_proto, [
+    {description, "Thrift proto for the pythagor service"},
+    {vsn, "1.0.0"},
+    {applications, [
+        kernel,
+        stdlib,
+        damsel
+    ]}
+]}.
