@@ -1,31 +1,35 @@
-namespace java dev.vality.pythagor
-namespace erlang pythagor.pythagor
+namespace java dev.vality.liminator
+namespace erlang liminator.liminator
 
-typedef i64 CounterId
-typedef string CounterName
+typedef i64 LimitId
+typedef string LimitName
 typedef string OperationId
 typedef i64 Value
+typedef i64 Timestamp
 
 exception CounterNotFound {}
 exception DuplicateCounterName {}
 
-struct CalculationRequest {
+struct LimitRequest {
     /* Наименование ИД подсчета */
-    1: required CounterName counter_name
+    1: required LimitName limit_name
 
     /* ИД операции изменения значения */
     2: required OperationId operation_id
 
     /* Добавляемое значение */
     3: required Value value
+
+    /* Добавляемое значение */
+    4: required Timestamp timestamp
 }
 
-struct CalculationResponse {
+struct LimitResponse {
     /* Внутренний ИД подсчета */
-    1: required CounterId id
+    1: required LimitId id
 
     /* Наименование ИД подсчета */
-    2: required CounterName counter_name
+    2: required LimitName limit_name
 
     /* Закоммиченное значение */
     3: required Value commit_value
@@ -34,24 +38,21 @@ struct CalculationResponse {
     4: required Value hold_value
 }
 
-service PythagorService {
+service LiminatorService {
 
     /* Создать счетчик для дальнейшего подсчета */
-    CalculationResponse initCounter(CounterName counter_name, OperationId operation_id)
+    LimitResponse initLimit(LimitName limit_name, OperationId operation_id)
         throws (1: DuplicateCounterName ex1)
 
     /* Добавить значение */
-    CalculationResponse holdValue(CalculationRequest request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> hold(list<LimitRequest> request) throws (1: CounterNotFound ex1)
 
     /* Применить значение */
-    CalculationResponse commitValue(CalculationRequest request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> commitValue(list<LimitRequest> request) throws (1: CounterNotFound ex1)
 
     /* Отменить добавление */
-    CalculationResponse rollbackValue(CalculationRequest request) throws (1: CounterNotFound ex1)
-
-    /* Добавить и применить значение */
-    CalculationResponse addValue(CalculationRequest request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> rollbackValue(list<LimitRequest> request) throws (1: CounterNotFound ex1)
 
     /* Получить значение */
-    CalculationResponse getValue(CounterName counter_name) throws (1: CounterNotFound ex1)
+    list<LimitResponse> getLimits(list<LimitName> limit_name) throws (1: CounterNotFound ex1)
 }

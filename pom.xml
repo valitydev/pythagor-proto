@@ -10,14 +10,14 @@
         <version>2.0.2</version>
     </parent>
 
-    <artifactId>pythagor-proto</artifactId>
+    <artifactId>liminator-proto</artifactId>
     <version>${revision}</version>
     <packaging>jar</packaging>
 
-    <name>pythagor-proto</name>
+    <name>liminator-proto</name>
     <description>Generates jar artifact containing compiled thrift classes based on generated thrift IDL files
     </description>
-    <url>https://github.com/valitydev/pythagor-proto</url>
+    <url>https://github.com/valitydev/liminator-proto</url>
 
     <licenses>
         <license>
@@ -35,9 +35,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/valitydev/pythagor-proto</connection>
-        <developerConnection>scm:git:ssh://github.com/valitydev/pythagor-proto</developerConnection>
-        <url>https://github.com/valitydev/pythagor-proto/tree/master</url>
+        <connection>scm:git:git://github.com/valitydev/liminator-proto</connection>
+        <developerConnection>scm:git:ssh://github.com/valitydev/liminator-proto</developerConnection>
+        <url>https://github.com/valitydev/liminator-proto/tree/master</url>
     </scm>
 
     <properties>
@@ -105,8 +105,8 @@
                         <configuration>
                             <relocations>
                                 <relocation>
-                                    <pattern>dev.vality.pythagor</pattern>
-                                    <shadedPattern>dev.vality.pythagor.v${commit.number}</shadedPattern>
+                                    <pattern>dev.vality.liminator</pattern>
+                                    <shadedPattern>dev.vality.liminator.v${commit.number}</shadedPattern>
                                 </relocation>
                             </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
