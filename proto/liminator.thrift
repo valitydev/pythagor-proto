@@ -2,57 +2,54 @@ namespace java dev.vality.liminator
 namespace erlang liminator.liminator
 
 typedef i64 LimitId
+
+/* Наименование лимита (например, limit.card.day.777) */
 typedef string LimitName
+
+/* ИД операции изменения значения (например, invoice.1) */
 typedef string OperationId
+
 typedef i64 Value
+
+/* Временная метка операции epochmills */
 typedef i64 Timestamp
 
-exception CounterNotFound {}
-exception DuplicateCounterName {}
+exception LimitNotFound {}
+exception DuplicateLimitName {}
+
+struct CreateLimitRequest {
+    1: required LimitName limit_name
+    2: required OperationId operation_id
+}
 
 struct LimitRequest {
-    /* Наименование ИД подсчета */
     1: required LimitName limit_name
-
-    /* ИД операции изменения значения */
     2: required OperationId operation_id
-
-    /* Добавляемое значение */
-    3: required Value value
-
-    /* Добавляемое значение */
-    4: required Timestamp timestamp
+    3: required Value adding_value
+    4: optional Timestamp timestamp
 }
 
 struct LimitResponse {
-    /* Внутренний ИД подсчета */
     1: required LimitId id
-
-    /* Наименование ИД подсчета */
     2: required LimitName limit_name
-
-    /* Закоммиченное значение */
     3: required Value commit_value
-
-    /* Захолдирование значение */
     4: required Value hold_value
 }
 
 service LiminatorService {
 
     /* Создать счетчик для дальнейшего подсчета */
-    LimitResponse initLimit(LimitName limit_name, OperationId operation_id)
-        throws (1: DuplicateCounterName ex1)
+    LimitResponse initLimit(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
 
     /* Добавить значение */
-    list<LimitResponse> hold(list<LimitRequest> request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Применить значение */
-    list<LimitResponse> commitValue(list<LimitRequest> request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> commitValue(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Отменить добавление */
-    list<LimitResponse> rollbackValue(list<LimitRequest> request) throws (1: CounterNotFound ex1)
+    list<LimitResponse> rollbackValue(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Получить значение */
-    list<LimitResponse> getLimits(list<LimitName> limit_name) throws (1: CounterNotFound ex1)
+    list<LimitResponse> getLimits(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
 }
