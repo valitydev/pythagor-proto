@@ -29,14 +29,12 @@ struct LimitRequest {
     1: required LimitName limit_name
     2: required OperationId operation_id
     3: required Value value
-    4: optional Timestamp timestamp
 }
 
 struct LimitResponse {
-    1: required LimitId id
-    2: required LimitName limit_name
-    3: required Value commit_value
-    4: required Value hold_value
+    1: required LimitName limit_name
+    2: required Value commit_value
+    3: required Value hold_value
 }
 
 service LiminatorService {
