@@ -9,6 +9,8 @@ typedef string LimitName
 /* ИД операции изменения значения (например, invoice.1) */
 typedef string OperationId
 
+typedef Map<String, String> Context
+
 typedef i64 Value
 
 /* Временная метка операции epochmills */
@@ -20,12 +22,13 @@ exception DuplicateLimitName {}
 struct CreateLimitRequest {
     1: required LimitName limit_name
     2: required OperationId operation_id
+    3: optional Context context
 }
 
 struct LimitRequest {
     1: required LimitName limit_name
     2: required OperationId operation_id
-    3: required Value adding_value
+    3: required Value value
     4: optional Timestamp timestamp
 }
 
@@ -39,17 +42,17 @@ struct LimitResponse {
 service LiminatorService {
 
     /* Создать счетчик для дальнейшего подсчета */
-    LimitResponse initLimit(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
+    LimitResponse create(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
 
     /* Добавить значение */
     list<LimitResponse> hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Применить значение */
-    list<LimitResponse> commitValue(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Отменить добавление */
-    list<LimitResponse> rollbackValue(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Получить значение */
-    list<LimitResponse> getLimits(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
+    list<LimitResponse> get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
 }
