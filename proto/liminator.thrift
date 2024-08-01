@@ -42,17 +42,17 @@ struct LimitResponse {
 service LiminatorService {
 
     /* Создать счетчик для дальнейшего подсчета */
-    LimitResponse create(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
+    LimitResponse Create(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
 
     /* Добавить значение */
-    list<LimitResponse> hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Применить значение */
-    list<LimitResponse> commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Отменить добавление */
-    list<LimitResponse> rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Получить значение */
-    list<LimitResponse> get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
 }
