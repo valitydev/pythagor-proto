@@ -9,7 +9,7 @@ typedef string LimitName
 /* ИД операции изменения значения (например, invoice.1) */
 typedef string OperationId
 
-typedef Map<String, String> Context
+typedef map<string, string> Context
 
 typedef i64 Value
 
