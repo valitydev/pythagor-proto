@@ -45,7 +45,7 @@ service LiminatorService {
     list<LimitResponse> Hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Применить значение */
-    list<LimitResponse> Commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    bool Commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Отменить добавление */
     bool Rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
