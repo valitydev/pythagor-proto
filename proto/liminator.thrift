@@ -21,8 +21,7 @@ exception DuplicateLimitName {}
 
 struct CreateLimitRequest {
     1: required LimitName limit_name
-    2: required OperationId operation_id
-    3: optional Context context
+    2: optional Context context
 }
 
 struct LimitRequest {
@@ -49,7 +48,7 @@ service LiminatorService {
     list<LimitResponse> Commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Отменить добавление */
-    list<LimitResponse> Rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    bool Rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
 
     /* Получить значение */
     list<LimitResponse> Get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
