@@ -1,1 +1,1 @@
-# pythagor-proto
+# liminator-proto

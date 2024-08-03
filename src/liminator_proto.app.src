@@ -1,0 +1,9 @@
+{application, liminator_proto, [
+    {description, "Thrift proto for the liminator service"},
+    {vsn, "1.0.0"},
+    {applications, [
+        kernel,
+        stdlib,
+        damsel
+    ]}
+]}.
