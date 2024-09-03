@@ -17,6 +17,9 @@ typedef i64 Value
 typedef i64 Timestamp
 
 exception LimitNotFound {}
+exception OperationNotFound {}
+exception OperationAlreadyInFinalState {}
+exception DuplicateOperation {}
 exception DuplicateLimitName {}
 
 struct CreateLimitRequest {
@@ -25,9 +28,9 @@ struct CreateLimitRequest {
 }
 
 struct LimitRequest {
-    1: required LimitName limit_name
-    2: required OperationId operation_id
-    3: required Value value
+    1: required OperationId operation_id
+    2: required Value value
+    3: required list<LimitName> limit_names
 }
 
 struct LimitResponse {
@@ -42,14 +45,18 @@ service LiminatorService {
     LimitResponse Create(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
 
     /* Добавить значение */
-    list<LimitResponse> Hold(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Hold(LimitRequest request)
+        throws (1: LimitNotFound ex1, 2: DuplicateOperation ex2, 3: OperationAlreadyInFinalState ex3)
 
     /* Применить значение */
-    bool Commit(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    void Commit(LimitRequest request) throws (1: LimitNotFound ex1, 2: OperationNotFound ex2)
 
     /* Отменить добавление */
-    bool Rollback(list<LimitRequest> request) throws (1: LimitNotFound ex1)
+    void Rollback(LimitRequest request) throws (1: LimitNotFound ex1, 2: OperationNotFound ex2)
 
-    /* Получить значение */
-    list<LimitResponse> Get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
+    /* Получить значения лимитов */
+    list<LimitResponse> Get(LimitRequest request) throws (1: LimitNotFound ex1)
+
+    /* Получить актуальные значения лимитов на текущий момент */
+    list<LimitResponse> GetLastLimitsValues(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
 }
