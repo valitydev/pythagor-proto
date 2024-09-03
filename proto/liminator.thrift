@@ -54,6 +54,9 @@ service LiminatorService {
     /* Отменить добавление */
     void Rollback(LimitRequest request) throws (1: LimitNotFound ex1, 2: OperationNotFound ex2)
 
-    /* Получить значения лимитов на текущий момент */
-    list<LimitResponse> Get(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
+    /* Получить значения лимитов */
+    list<LimitResponse> Get(LimitRequest request) throws (1: LimitNotFound ex1)
+
+    /* Получить актуальные значения лимитов на текущий момент */
+    list<LimitResponse> GetLastLimitsValues(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
 }
