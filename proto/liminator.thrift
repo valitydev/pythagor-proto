@@ -21,6 +21,7 @@ exception OperationNotFound {}
 exception OperationAlreadyInFinalState {}
 exception DuplicateOperation {}
 exception DuplicateLimitName {}
+exception LimitsValuesReadingException {}
 
 struct CreateLimitRequest {
     1: required LimitName limit_name
@@ -55,8 +56,9 @@ service LiminatorService {
     void Rollback(LimitRequest request) throws (1: LimitNotFound ex1, 2: OperationNotFound ex2)
 
     /* Получить значения лимитов */
-    list<LimitResponse> Get(LimitRequest request) throws (1: LimitNotFound ex1)
+    list<LimitResponse> Get(LimitRequest request) throws (1: LimitNotFound ex1, 2: LimitsValuesReadingException ex2)
 
     /* Получить актуальные значения лимитов на текущий момент */
-    list<LimitResponse> GetLastLimitsValues(list<LimitName> limit_names) throws (1: LimitNotFound ex1)
+    list<LimitResponse> GetLastLimitsValues(list<LimitName> limit_names)
+        throws (1: LimitNotFound ex1, 2: LimitsValuesReadingException ex2)
 }
