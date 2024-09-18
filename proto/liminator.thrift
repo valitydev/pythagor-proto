@@ -28,10 +28,14 @@ struct CreateLimitRequest {
     2: optional Context context
 }
 
+struct LimitChange {
+    1: required LimitName limit_name
+    2: required Value value
+}
+
 struct LimitRequest {
     1: required OperationId operation_id
-    2: required Value value
-    3: required list<LimitName> limit_names
+    2: required list<LimitChange> limit_changes
 }
 
 struct LimitResponse {
