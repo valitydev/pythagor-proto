@@ -1,7 +1,7 @@
 namespace java dev.vality.liminator
 namespace erlang liminator.liminator
 
-typedef i64 LimitId
+typedef string LimitId
 
 /* Наименование лимита (например, limit.card.day.777) */
 typedef string LimitName
@@ -23,14 +23,11 @@ exception DuplicateOperation {}
 exception DuplicateLimitName {}
 exception LimitsValuesReadingException {}
 
-struct CreateLimitRequest {
-    1: required LimitName limit_name
-    2: optional Context context
-}
-
 struct LimitChange {
-    1: required LimitName limit_name
-    2: required Value value
+    1: optional LimitId limit_id
+    2: required LimitName limit_name
+    3: required Value value
+    4: optional Context context
 }
 
 struct LimitRequest {
@@ -39,17 +36,14 @@ struct LimitRequest {
 }
 
 struct LimitResponse {
-    1: required LimitName limit_name
-    2: required Value commit_value
-    3: required Value hold_value
+    1: optional LimitId limit_id
+    2: required LimitName limit_name
+    3: required Value commit_value
+    4: required Value hold_value
 }
 
 service LiminatorService {
-
-    /* Создать счетчик для дальнейшего подсчета */
-    LimitResponse Create(CreateLimitRequest request) throws (1: DuplicateLimitName ex1)
-
-    /* Добавить значение */
+    /* Добавить значение, создать если нет */
     list<LimitResponse> Hold(LimitRequest request)
         throws (1: LimitNotFound ex1, 2: DuplicateOperation ex2, 3: OperationAlreadyInFinalState ex3)
 
