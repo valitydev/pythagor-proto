@@ -39,7 +39,10 @@ struct LimitResponse {
     1: optional LimitId limit_id
     2: required LimitName limit_name
     3: required Value commit_value
-    4: required Value hold_value
+    /*
+    * Суммарное значение всех коммитов, всех текущих холдов и нового холда в обработке
+    * */
+    4: required Value total_value
 }
 
 service LiminatorService {
